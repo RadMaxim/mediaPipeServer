@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection</title>
+
+
+</head>
+<body>
+    <header><h1>Detection</h1></header>
+    <main>
+        <section class="section_left">
+    <img src="{{ url_for('video_feed') }}" width="640" height="480">
+        </section>
+        <section class="section_right">
+            <div class="chat_msg">
+                <div class="chat_h">Security chat</div>
+                <div class="chat_ms"></div>
+                <div class="chat_sendMSG"></div>
+            </div>
+
+            <div id="alert" style="display: none; color: red;"></div>
+        </section>
+    </main>
+    <footer></footer>
+    <script  src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script defer >
+     let chat_ms = document.querySelector(".chat_ms")
+    const socket = io.connect('ws://localhost:5000');
+socket.on('message', function(data) {
+    let {msg} = data
+    const socket = io.connect('ws://localhost:5000');
+socket.on('message', function(data) {
+    let {msg} = data
+     const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+        const timeString = `${hours}:${minutes}:${seconds}`;
+        const obj = {
+          text:msg,
+          time:timeString
+        }
+        console.log(obj);
+        const div = document.createElement("div")
+        div.classList.add("msg_bot")
+        const leftText = document.createElement("div")
+        leftText.classList.add("left_bot")
+        leftText.innerText = obj.text
+        const rightText = document.createElement("div")
+        rightText.innerHTML = obj.time
+        rightText.classList.add("right_bot")
+        div.appendChild(leftText)
+        div.appendChild(rightText)
+        chat_ms.appendChild(div)
+
+});
+
+
+});
+
+
+    </script>
+</body>
+<style>
+   * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+h1, li {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+:root {
+  --text_color_button:rgb(236, 245, 255);
+  --back_section:rgba(56, 105, 255, 0.444);
+}
+
+body {
+  font-size: 16px;
+  background-color: var(--text_color_button);
+  display: grid;
+  grid-template-columns: auto 95% auto;
+  grid-template-rows: 15vh 70vh 15vh;
+  grid-template-areas: ". head ." ". main ." ". foot .";
+}
+body header, body main, body footer {
+  border: 0.1px solid rgba(0, 0, 0, 0.13);
+  padding: 10px;
+}
+
+header {
+  grid-area: head;
+  text-align: center;
+}
+header h1 {
+  font-size: 4rem;
+  line-height: 100px;
+}
+
+main {
+  grid-area: main;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+main section:nth-child(1) {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  background-color: var(--back_section);
+  height: 100%;
+  border-radius: 20px;
+}
+main section:nth-child(1) img {
+  width: 90%;
+  height: 90%;
+}
+main section:nth-child(2) {
+  background-color: var(--back_section);
+  height: 100%;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  border-radius: 20px;
+}
+
+footer {
+  grid-area: foot;
+}
+
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+  main section:nth-child(1) {
+    width: 100%;
+    height: 80%;
+    border-radius: 20px;
+  }
+  main section:nth-child(1) img {
+    width: 90%;
+    height: 90%;
+  }
+  main section:nth-child(2) {
+    height: 20%;
+    width: 100%;
+    border-radius: 20px;
+  }
+}
+.chat_msg {
+  width: 80%;
+  height: 90%;
+  background-color: white;
+  display: grid !important;
+  grid-template-columns: auto 95% auto;
+  grid-template-rows: 10% 70% 20%;
+  grid-template-areas: "hh hh hh" ". msg ." "send send send";
+}
+.chat_msg div {
+  border: 0.1px solid rgba(0, 0, 0, 0.13);
+  padding: 10px;
+}
+
+.chat_h {
+  grid-area: hh;
+  font-size: 2rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.chat_ms {
+  grid-area: msg;
+  overflow-y: scroll;
+}
+
+.chat_sendMSG {
+  grid-area: send;
+}
+
+.msg_bot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.msg_bot .left_bot {
+  background-color: var(--back_section);
+  font-size: 1.2rem;
+}
+.msg_bot .right_bot {
+  background-color: var(--text_color_button);
+  font-weight: 900;
+}/*# sourceMappingURL=index.css.map */
+
+</style>
+
+</html>
