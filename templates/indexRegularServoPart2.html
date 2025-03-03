@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection</title>
+    <!-- <link rel="stylesheet" href="test.css"> -->
+
+</head>
+<body>
+    <header><h1>Servo workers</h1></header>
+    <main>
+      <div class="controlServo">
+        <label for="slider1">Servo 1:</label>
+        <input class="changeAngle" type="range" id="slider1" name="slider1" min="0" max="180" value="50">
+        <span class="valueSpan" id="value1">50</span>
+
+      </div>
+
+      <div class="controlServo">
+        <label for="slider2">Servo 2:</label>
+        <input class="changeAngle" type="range" id="slider2" name="slider2" min="0" max="180" value="50" step="1">
+        <span class="valueSpan" id="value2">100</span>
+
+
+      </div>
+
+
+
+    <div class="controlServo">
+      <label for="slider3">Servo 3:</label>
+      <input class="changeAngle" type="range" id="slider3" name="slider3" min="0" max="180" value="5" step="1">
+      <span class="valueSpan" id="value3">5</span>
+    </div>
+
+      <!-- <ul id="buttons" class="buttons">
+
+
+      </ul> -->
+
+    </main>
+    <footer></footer>
+    <script  src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script defer >
+
+      let changeAngle = document.getElementsByClassName("changeAngle");
+      let valueSpan = document.getElementsByClassName("valueSpan");
+      let valueRanges = {
+        r1:50,r2:50,r3:50
+      }
+      Array.from(changeAngle).forEach((elem,index)=>{
+        elem.addEventListener("input",(e)=>{
+          let valCurrent = e.target.value;
+          valueSpan[index].innerText =valCurrent;
+          valueRanges[`r${index+1}`] = valCurrent;
+          sendMsg(valueRanges);
+        })
+      })
+      function sendMsg(valueRanges ={r1:50,r2:50,r3:50}) {
+        fetch('/handle_click', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(valueRanges)
+        }).then(response => response.json())
+          .then(data => console.log(data))
+          .catch(error => console.error('Error:', error));
+      }
+
+
+
+    const socket = io.connect('ws://localhost:5000');
+        socket.on('message', function(data) {
+    let {msg} = data
+    const socket = io.connect('ws://localhost:5000');
+        socket.on('message', function(data) {
+
+
+
+});
+
+
+});
+
+
+    </script>
+</body>
+<style>
+ * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+h1, li {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+:root {
+  --text_color_button:rgb(236, 245, 255);
+  --back_section:rgba(56, 105, 255, 0.444);
+}
+
+body {
+  font-size: 16px;
+  background-color: rgb(222, 222, 222);
+  display: grid;
+  grid-template-columns: auto 95% auto;
+  grid-template-rows: 15vh 70vh 15vh;
+  grid-template-areas: ". head ." ". main ." ". foot .";
+}
+body header, body main, body footer {
+  border: 0.1px solid rgba(0, 0, 0, 0.13);
+  padding: 10px;
+}
+
+header {
+  grid-area: head;
+  text-align: center;
+}
+header h1 {
+  font-size: 4rem;
+  line-height: 100px;
+}
+
+main {
+  grid-area: main;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  flex-direction: column;
+}
+main .controlServo {
+  min-width: 400px;
+  height: 50px;
+}
+
+footer {
+  grid-area: foot;
+}
+
+#buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 90%;
+  height: 500px;
+  padding: 20px;
+  background-color: white;
+  list-style-type: none;
+}
+
+.btn {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 700;
+  width: 170px;
+  height: 50px;
+  border-radius: 20px;
+  line-height: 50px;
+  cursor: pointer;
+  transition: 0.8s ease-in-out;
+  background-color: blue;
+  color: white;
+  border: none;
+  outline: none;
+}
+.btn:hover {
+  color: blue;
+  background-color: white;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 10.8px 0;
+}
+
+input[type=range]:focus {
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -14px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #367ebd;
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+input[type=range]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+input[type=range]::-ms-fill-lower {
+  background: #2a6495;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000, 0px 0px 1px #0d0d0d;
+}
+
+input[type=range]::-ms-fill-upper {
+  background: #3071a9;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000, 0px 0px 1px #0d0d0d;
+}
+
+input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 1px #000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  height: 8.4px;
+}
+
+input[type=range]:focus::-ms-fill-lower {
+  background: #3071a9;
+}
+
+input[type=range]:focus::-ms-fill-upper {
+  background: #367ebd;
+}/*# sourceMappingURL=test.css.map */
+</style>
+
+</html>
