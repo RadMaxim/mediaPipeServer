@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection</title>
+    <link rel="stylesheet" href="test.css">
+
+</head>
+<body>
+    <header><h1>Servo workers</h1></header>
+    <main>
+      <ul id="buttons" class="buttons">
+
+
+      </ul>
+    </main>
+    <footer></footer>
+    <script  src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script defer >
+      function sendClick(angle) {
+        fetch('/handle_click', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ angle: angle })
+        }).then(response => response.json())
+          .then(data => console.log(data))
+          .catch(error => console.error('Error:', error));
+    }
+
+
+
+    const socket = io.connect('ws://localhost:5000');
+        socket.on('message', function(data) {
+    let {msg} = data
+    const socket = io.connect('ws://localhost:5000');
+        socket.on('message', function(data) {
+
+
+
+});
+
+
+});
+
+function createLi() {
+    let ul =document.getElementById("buttons")
+    let arrLi = Array(19).fill(0).map((elem, index)=>{
+        return `<li class="btn">${index*10}</li>`
+    })
+    ul.innerHTML = arrLi.join("");
+}
+createLi();
+function handleLi() {
+    let allLi = document.getElementsByClassName("btn")
+    Array.from(allLi).forEach((elem)=>elem.addEventListener("click",()=>{
+            let angle = elem.innerText;
+            sendClick(angle)
+
+    }))
+}
+handleLi()
+    </script>
+</body>
+<style>
+ * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+h1, li {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+:root {
+  --text_color_button:rgb(236, 245, 255);
+  --back_section:rgba(56, 105, 255, 0.444);
+}
+
+body {
+  font-size: 16px;
+  background-color: rgb(222, 222, 222);
+  display: grid;
+  grid-template-columns: auto 95% auto;
+  grid-template-rows: 15vh 70vh 15vh;
+  grid-template-areas: ". head ." ". main ." ". foot .";
+}
+body header, body main, body footer {
+  border: 0.1px solid rgba(0, 0, 0, 0.13);
+  padding: 10px;
+}
+
+header {
+  grid-area: head;
+  text-align: center;
+}
+header h1 {
+  font-size: 4rem;
+  line-height: 100px;
+}
+
+main {
+  grid-area: main;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+footer {
+  grid-area: foot;
+}
+
+#buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 90%;
+  height: 500px;
+  padding: 20px;
+  background-color: white;
+  list-style-type: none;
+}
+
+.btn {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 700;
+  width: 170px;
+  height: 50px;
+  border-radius: 20px;
+  line-height: 50px;
+  cursor: pointer;
+  transition: 0.8s ease-in-out;
+  background-color: blue;
+  color: white;
+  border: none;
+  outline: none;
+}
+.btn:hover {
+  color: blue;
+  background-color: white;
+}/*# sourceMappingURL=test.css.map */
+
+</style>
+
+</html>

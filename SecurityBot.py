@@ -1,7 +1,6 @@
 from flask import Flask, render_template, Response, request, jsonify
 from flask_cors import CORS
 import cv2
-import telebot
 import numpy as np
 import mediapipe as mp
 from flask_socketio import SocketIO, emit
